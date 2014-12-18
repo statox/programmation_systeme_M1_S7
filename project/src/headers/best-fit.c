@@ -2,8 +2,8 @@
  *  Those functions implements the best-fit algorithm
  */
 
-#ifndef BEST-FIT_H
-#define BEST-FIT_H
+#ifndef BESTFIT_H 
+#define BESTFIT_H 
 
 #include "structures.h"
 #include "memory.h"
@@ -11,4 +11,4 @@
 
 int BFallocate (Memory memory, int requestedSize);
 
-#endif /* BEST-FIT_H */
+#endif /* BESTFIT_H */
