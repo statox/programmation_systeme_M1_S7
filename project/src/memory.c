@@ -188,3 +188,27 @@ int freeBlock (Memory memory, int address)
     // if we get here, there probably is a hole in the matrix
     return -3;
 }
+
+
+// check the allocated blocks, sums the free part in the allocated blocks and compare it to the requested value
+bool isDefragUseful (Memory memory, int requestedSize)
+{
+    Block* tmp  = memory;
+    int avaible = 0;
+
+    while (tmp != NULL)
+    {
+        if (tmp->allocated)
+        {
+            avaible += (tmp->length - tmp->usedLength);
+        }
+        tmp = tmp->next;
+    }
+
+    printf ("The waisted memory in the allocated block is: %d\n", avaible);
+    
+    if (avaible >= requestedSize)
+        return true;
+            
+    return false;
+}

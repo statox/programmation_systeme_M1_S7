@@ -54,57 +54,58 @@ int main (int argc, char **argv)
             }
         }
         printMem(memory);
-    } else {
-        while (loop==1)
+    }
+
+    while (loop==1)
+    {
+        switch (menu())
         {
-            switch (menu())
-            {
-                case 1:
-                    input = -1;
-                    do
-                    {
-                        printf("Quel algorithme souhaitez vous utiliser?\n");
-                        printf("\t1. First Fit\n");
-                        printf("\t2. Best  Fit\n");
-                        printf("\t3. Worst Fit\n");
-                        printf("\nSaisissez votre choix: ");
-                        scanf("%d", &input);
-                    }while (input<1 || input>3);
+            case 1:
+                input = -1;
+                do
+                {
+                    printf("Quel algorithme souhaitez vous utiliser?\n");
+                    printf("\t1. First Fit\n");
+                    printf("\t2. Best  Fit\n");
+                    printf("\t3. Worst Fit\n");
+                    printf("\nSaisissez votre choix: ");
+                    scanf("%d", &input);
+                }while (input<1 || input>3);
 
-                    printf ("Combien de memoire souhaitez vous allouer?\n");
-                    scanf ("%d", &input1);
-                    if (input == 1)
-                    {
-                        FFallocate(memory, input1);
-                    }
-                    else if (input == 2)
-                    {
-                        BFallocate(memory, input1);
-                    }
-                    else
-                    {
-                        WFallocate(memory, input1);
-                    }
-                    break;
+                printf ("Combien de memoire souhaitez vous allouer?\n");
+                scanf ("%d", &input1);
+                if (input == 1)
+                {
+                    FFallocate(memory, input1);
+                }
+                else if (input == 2)
+                {
+                    BFallocate(memory, input1);
+                }
+                else
+                {
+                    WFallocate(memory, input1);
+                }
+                isDefragUseful(memory, 10);
+                break;
 
-                case 2:
-                    printf ("Quel bloc souhaitez vous liberer?\n");
-                    scanf ("%d", &input);
-                    freeBlock(memory, input);
-                    break;
+            case 2:
+                printf ("Quel bloc souhaitez vous liberer?\n");
+                scanf ("%d", &input);
+                freeBlock(memory, input);
+                break;
 
-                case 3:
-                    printMem(memory);
-                    break;
+            case 3:
+                printMem(memory);
+                break;
 
-                case 4:
-                    printf ("Liberation de %d blocs\n", freeMemory(memory) );
-                    break;
+            case 4:
+                printf ("Liberation de %d blocs\n", freeMemory(memory) );
+                break;
 
-                default:
-                    loop = 0;
+            default:
+                loop = 0;
 
-            }
         }
     }
 
