@@ -32,4 +32,7 @@ int freeBlock (Memory memory, int address);
 // free all the blocks of the memory
 int freeMemory (Memory memory);
 
+// delete unused space in allocated block
+// then use this space to create 2 blocks of requestedSize size and remaining size
+Memory defrag (Memory memory, int requestedSize);
 #endif /* MEMORY_H */

@@ -212,3 +212,44 @@ bool isDefragUseful (Memory memory, int requestedSize)
             
     return false;
 }
+
+// Create 2 new blocks from concatenation of the waisted spaces in the allocated blocks
+//  In the 2 blocks
+//      one is of the size of requestedSize
+//      The other one is of (total waisted space) - requestedSize
+//
+//  Before any operation, the function uses isDefragUseful to check if there is enough 
+//  free space to create a block of the requestedSize
+
+Memory defrag (Memory memory, int requestedSize)
+{
+    Block* tmp      = memory;
+    Block* prev     = NULL; 
+    int freeSpace   = 0;
+
+    if (!isDefragUseful(memory, requestedSize))
+        printf ("La defragmentation ne permettra pas de recuperer un espace de %d\n", requestedSize);
+    
+    while (tmp != NULL)
+    {
+        if (tmp->allocated && tmp->length != tmp->usedLength)
+        {
+            freeSpace   += tmp->length - tmp->usedLength;
+            tmp->length = tmp->usedLength;
+        }
+        prev    = tmp;
+        tmp     = tmp->next;
+    }
+
+    printf ("total espace perdu dans les blocs alloues %d\n", freeSpace);
+    printf ("taille du nouveau bloc 1 %d\n", requestedSize);
+    printf ("taille du nouveau bloc 2 %d\n", (freeSpace-requestedSize));
+
+    printf ("Creation d'un nouveau bloc de %d\n", requestedSize);
+    memory = addEnd(memory, prev->address+1, requestedSize, 0);
+
+    printf ("Creation d'un nouveau bloc de %d\n", (freeSpace-requestedSize));
+    memory = addEnd(memory, prev->address+2, (freeSpace-requestedSize), 0);
+
+    return memory;
+}

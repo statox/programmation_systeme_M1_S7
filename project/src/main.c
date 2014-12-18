@@ -55,7 +55,6 @@ int main (int argc, char **argv)
                 {
                     WFallocate(memory, input1);
                 }
-                isDefragUseful(memory, 10);
                 break;
 
             case 2:
@@ -70,6 +69,12 @@ int main (int argc, char **argv)
             
             case 4:
                 printf ("Liberation de %d blocs\n", freeMemory(memory) );
+                break;
+
+            case 5:
+                printf ("Quelle est la taille du bloc dont vous avez besoin?\n");
+                scanf("%d", &input);
+                memory = defrag(memory, input);
                 break;
 
             default:
@@ -94,14 +99,15 @@ int menu ()
     {
         printf ("Que souhaitez vous faire?\n");
         printf ("\t1. Allouer de la memoire\n");
-        printf ("\t2. Liberer de la memoire\n");
+        printf ("\t2. Liberer un bloc de la memoire\n");
         printf ("\t3. Visualiser la memoire\n");
         printf ("\t4. Liberer toute la memoire\n");
+        printf ("\t5. Defragmenter les espaces perdus\n");
         printf ("\t0. Quitter le programme\n\n");
 
         printf ("Saisissez votre choix: ");
         scanf("%d", &choix);
-    }while (choix<0 || choix>4);  
+    }while (choix<0 || choix>5);  
 
     return choix;
 }
