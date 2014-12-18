@@ -9,6 +9,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "headers/structures.h"
+#include "headers/memory.h"
+#include "headers/worst-fit.h"
+#include "headers/first-fit.h"
+#include "headers/best-fit.h"
 
 int menu ();
 
@@ -96,5 +100,7 @@ int menu ()
 
         printf ("Saisissez votre choix: ");
         scanf("%d", &choix);
-    }while (choix<0 || choix>4);   
+    }while (choix<0 || choix>4);  
+
+    return choix;
 }

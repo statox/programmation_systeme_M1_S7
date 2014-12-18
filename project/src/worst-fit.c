@@ -8,7 +8,7 @@ int WFallocate (Memory memory, int requestedSize)
 {
 
     Block*  tmp     = memory;   // pointer to iterate through the memory
-    Block*  worst    = NULL;     // pointer to the best block (the block with the smallest size fitting the request)
+    Block*  worst   = NULL;     // pointer to the best block (the block with the smallest size fitting the request)
 
     printf("Worst Fit Strategy\n");
     printf ("Trying to fit %d\n", requestedSize);
@@ -37,13 +37,19 @@ int WFallocate (Memory memory, int requestedSize)
         tmp = tmp->next;
     }
 
+    // if we didnt found any fitting block
+    if (worst == NULL)
+    {
+        printf("Il n'existe pas de bloc capable de contenir cette requete\n");
+        return -1;
+    }
+
     printf("On alloue le bloc a l'adresse %d", worst->address);
 
 
     // Allocation of the block
     // TODO: handle an impossible Allocation
     allocateBlock(memory, worst->address, requestedSize);
-
 
     return 0;
 }
