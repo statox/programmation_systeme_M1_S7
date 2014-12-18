@@ -8,16 +8,17 @@ void printMem (Memory memory)
 
     Block* tmp=memory;
 
-    printf ("@ \t - L\t-  n.@\tA\n");
+    printf ("@ \t - Used\t/Length\t-  n.@\tA\n");
+    printf ("---------------------------------\n");
     while (tmp != NULL)
     {
         if (tmp->next != NULL)
         {
-            printf("%d \t - %d\t-  %d \t%d \n", tmp->address, tmp->length, tmp->next->address, tmp->allocated);
+            printf("%d \t - %d\t/ %d\t-  %d \t%d \n", tmp->address, tmp->usedLength, tmp->length, tmp->next->address, tmp->allocated);
         }
         else
         {
-            printf("%d \t - %d\t-  NULL\t%d \n", tmp->address, tmp->length, tmp->allocated);
+            printf("%d \t - %d\t/ %d\t-  NULL\t%d \n", tmp->address, tmp->usedLength, tmp->length, tmp->allocated);
         }
         tmp = tmp->next;
     }
@@ -131,7 +132,7 @@ int allocateBlock (Memory memory, int address, int usedLength)
     // if the Block is found mark it as allocated
     if (tmp != NULL && !tmp->allocated)
     {
-        if (usedLength < tmp->length)
+        if (usedLength <= tmp->length)
         {
             tmp->allocated = true;
             tmp->usedLength = usedLength;
@@ -170,7 +171,8 @@ int freeBlock (Memory memory, int address)
     // if the Block is found mark it as free
     if (tmp != NULL && tmp->allocated)
     {
-        tmp->allocated = false;
+        tmp->allocated  = false;
+        tmp->usedLength = 0;
         return 0;
     }
     else if (tmp == NULL)
