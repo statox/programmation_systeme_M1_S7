@@ -17,52 +17,37 @@ int FFallocate (Memory memory, int requestedSize)
     // iterate through the memory
     while(!stop && tmp != NULL)
     {
-        printf("Bloc %d: ", tmp->address);
+        printf("Bloc %d: %d ", tmp->address, tmp->length);
 
         // if one Block is not allocated its size is available
         if (!tmp->allocated)
         {
-            available           += tmp->length;
-            blocksAdd[nbBlock]  = tmp->address;
-            nbBlock++;
-            printf ("libre!\n");
+            printf ("libre\n");
+            
             // if we have enough space we stop the loop
-            if (available >= requestedSize)
+            if (tmp->length >= requestedSize)
             {
-                printf("On a assez de blocs\n");
+                printf("\tCa rentre!\n");
                 stop = true;
             }
-            tmp = tmp -> next;
+            else    // else we look for the next block
+            {
+                tmp = tmp->next;
+            }
         }
         else    // if the block is allocated, we search for the next free Block
         {
-            available   = 0;
-            nbBlock     = 0;
-            tmp         = tmp->next;
-            firstBlock  = tmp;
-
-            printf ("Occupe!\n");
+                printf ("Occupe!\n");
+                tmp = tmp->next;
         }
     }
 
-    printf ("La zone commence au bloc %d\n", firstBlock->address);
-    printf ("Elle contient %d blocs\n", nbBlock);
-    printf ("Pour une taille de %d\n", available);
-    printf ("Les blocs contenus sont les suivants:\n");
-    
-    int i = 0;
-    for (i=0; i<nbBlock; ++i)
-    {
-        printf("\t%d\n", blocksAdd[i]);
-    }
+    printf("On alloue le bloc %d\n", tmp->address); 
 
 
-    // Allocation of the blocks
+    // Allocation of the block
     // TODO: handle an impossible Allocation
-    for (i=0; i<nbBlock; ++i)
-    {
-        allocateBlock(memory, blocksAdd[i]);
-    }
+    allocateBlock(memory, tmp->address);
 
 
     return 0;
