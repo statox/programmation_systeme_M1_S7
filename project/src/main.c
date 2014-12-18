@@ -107,6 +107,13 @@ int main (int argc, char **argv)
                 scanf("%d", &input);
                 memory = defrag(memory, input);
                 break;
+            case 6:
+                printf ("De quel bloc voulez vous liberer de la memoire?\n");
+                scanf ("%d", &input);
+                printf ("Quelle quantite de memoire voulez vous liberer?\n");
+                scanf ("%d", &input1);
+                freeBlockLength(memory, input, input1);
+                break;
 
             default:
                 loop = 0;
@@ -130,15 +137,16 @@ int menu ()
     {
         printf ("Que souhaitez vous faire?\n");
         printf ("\t1. Allouer de la memoire\n");
-        printf ("\t2. Liberer un bloc de la memoire\n");
+        printf ("\t2. Liberer un bloc entier de la memoire\n");
         printf ("\t3. Visualiser la memoire\n");
         printf ("\t4. Liberer toute la memoire\n");
         printf ("\t5. Defragmenter les espaces perdus\n");
+        printf ("\t6. Liberer une partie d'un bloc de la memoire\n");
         printf ("\t0. Quitter le programme\n\n");
 
         printf ("Saisissez votre choix: ");
         scanf("%d", &choix);
-    }while (choix<0 || choix>5);  
+    }while (choix<0 || choix>6);  
 
     return choix;
 }

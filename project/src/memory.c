@@ -195,6 +195,44 @@ int freeBlock (Memory memory, int address)
     return -3;
 }
 
+// iterate through the memory and free a part of the desired block
+int freeBlockLength (Memory memory, int address, int lengthFree)
+{
+    // iteration through the memory
+    Block* tmp = memory;
+    while (tmp != NULL && tmp->address != address)
+        tmp = tmp->next;
+
+    // if the Block is found mark and the allocated space in the bloc is greater and the length to free
+    if (tmp != NULL && tmp->allocated)
+    {
+        if (tmp->usedLength >= lengthFree)
+        {
+            tmp->usedLength = tmp->usedLength-lengthFree;
+            if (tmp->usedLength==0)
+                tmp->allocated = false;
+        
+            return 0;
+        }else
+        {
+            printf ("Liberation impossible, le bloc %d ne possede pas autant d'espace occupe\n", address);
+            return -4;
+        }
+    }
+    else if (tmp == NULL)
+    {
+        printf("Liberation impossible, le bloc %d n existe pas\n", address);
+        return -1;
+    }else if (!tmp->allocated)
+    {
+        printf("Liberation impossible, le bloc %d n est pas  alloue\n", address);
+        return -2;
+    }
+
+    // if we get here, there probably is a hole in the matrix
+    return -3;
+
+}
 
 // check the allocated blocks, sums the free part in the allocated blocks and compare it to the requested value
 bool isDefragUseful (Memory memory, int requestedSize)

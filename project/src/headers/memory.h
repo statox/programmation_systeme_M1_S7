@@ -29,6 +29,9 @@ int allocateBlock (Memory memory, int address, int requestedSize);
 // iterate through the memory and marks the desired block as "free"
 int freeBlock (Memory memory, int address);
 
+// iterate through the memory and free a part of the desired block
+int freeBlockLength (Memory memory, int address, int lengthFree);
+
 // free all the blocks of the memory
 int freeMemory (Memory memory);
 
