@@ -7,7 +7,7 @@ void printMem (Memory memory)
 {
 
     Block* tmp=memory;
-   
+
     printf ("@ \t - L\t-  n.@\tA\n");
     while (tmp != NULL)
     {
@@ -48,7 +48,7 @@ Memory createMemory (int nbBlocks, int blockSize)
     return mem;
 }
 
- 
+
 // free all the blocks of the memory
 int freeMemory (Memory memory)
 {
@@ -68,7 +68,7 @@ int freeMemory (Memory memory)
 
     return freedBlocks;
 }
-    
+
 // Add a new Block at the head of the Memory
 Memory addHead (Memory memory, int address, int length, bool status)
 {
@@ -78,6 +78,7 @@ Memory addHead (Memory memory, int address, int length, bool status)
     // assignation of the values
     newBlock->address   = address;
     newBlock->length    = length;
+    newBlock->usedLength= 0;
     newBlock->allocated = status;
     newBlock->next      = memory;
 
@@ -95,6 +96,7 @@ Memory addEnd (Memory memory, int address, int length, bool status)
     // assignation of the values
     newBlock->address   = address;
     newBlock->length    = length;
+    newBlock->usedLength= 0;
     newBlock->allocated = status;
     newBlock->next      = NULL; // it is the end of the list so no following Block
 
@@ -118,7 +120,7 @@ Memory addEnd (Memory memory, int address, int length, bool status)
 }
 
 // iterate through the memory and marks the desired block as "allocated"
-int allocateBlock (Memory memory, int address)
+int allocateBlock (Memory memory, int address, int usedLength)
 {
 
     // iteration through the memory
@@ -127,11 +129,19 @@ int allocateBlock (Memory memory, int address)
         tmp = tmp->next;
 
     // if the Block is found mark it as allocated
-    // TODO: handle a wrong block
     if (tmp != NULL && !tmp->allocated)
     {
-        tmp->allocated = true;
-        return 0;
+        if (usedLength < tmp->length)
+        {
+            tmp->allocated = true;
+            tmp->usedLength = usedLength;
+            return 0;
+        }
+        else
+        {
+            printf("Allocation impossible, le bloc %d ne contient pas assez d espace.\n", address);
+            return -1;
+        }
     }
     else if (tmp == NULL)
     {

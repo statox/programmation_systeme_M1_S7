@@ -11,7 +11,7 @@ int BFallocate (Memory memory, int requestedSize)
     printf("Best Fit Strategy\n");
     printf ("Trying to fit %d\n", requestedSize);
 
-    // iteration through the memory 
+    // iteration through the memory
     while (tmp != NULL)
     {
         printf("Bloc %d: %d\t", tmp->address, tmp->length);
@@ -40,7 +40,7 @@ int BFallocate (Memory memory, int requestedSize)
 
     // Allocation of the block
     // TODO: handle an impossible Allocation
-    allocateBlock(memory, best->address);
+    allocateBlock(memory, best->address, requestedSize);
 
 
 

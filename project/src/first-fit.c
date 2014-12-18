@@ -23,7 +23,7 @@ int FFallocate (Memory memory, int requestedSize)
         if (!tmp->allocated)
         {
             printf ("libre\n");
-            
+
             // if we have enough space we stop the loop
             if (tmp->length >= requestedSize)
             {
@@ -42,12 +42,12 @@ int FFallocate (Memory memory, int requestedSize)
         }
     }
 
-    printf("On alloue le bloc %d\n", tmp->address); 
+    printf("On alloue le bloc %d\n", tmp->address);
 
 
     // Allocation of the block
     // TODO: handle an impossible Allocation
-    allocateBlock(memory, tmp->address);
+    allocateBlock(memory, tmp->address, requestedSize);
 
 
     return 0;
