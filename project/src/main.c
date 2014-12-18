@@ -62,6 +62,10 @@ int main (int argc, char **argv)
             case 3:
                 printMem(memory);
                 break;
+            
+            case 4:
+                printf ("Liberation de %d blocs\n", freeMemory(memory) );
+                break;
 
             default:
                 loop = 0;
@@ -87,9 +91,10 @@ int menu ()
         printf ("\t1. Allouer de la memoire\n");
         printf ("\t2. Liberer de la memoire\n");
         printf ("\t3. Visualiser la memoire\n");
+        printf ("\t4. Liberer toute la memoire\n");
         printf ("\t0. Quitter le programme\n\n");
 
         printf ("Saisissez votre choix: ");
         scanf("%d", &choix);
-    }while (choix<0 || choix>3);   
+    }while (choix<0 || choix>4);   
 }

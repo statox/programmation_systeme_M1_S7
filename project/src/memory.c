@@ -48,6 +48,27 @@ Memory createMemory (int nbBlocks, int blockSize)
     return mem;
 }
 
+ 
+// free all the blocks of the memory
+int freeMemory (Memory memory)
+{
+
+    Block* tmp = memory;
+    int freedBlocks = 0;
+
+    while (tmp != NULL)
+    {
+        if (tmp->allocated)
+        {
+            freeBlock(memory, tmp->address);
+            freedBlocks++;
+        }
+        tmp = tmp->next;
+    }
+
+    return freedBlocks;
+}
+    
 // Add a new Block at the head of the Memory
 Memory addHead (Memory memory, int address, int length, bool status)
 {
