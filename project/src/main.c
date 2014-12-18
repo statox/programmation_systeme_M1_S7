@@ -21,12 +21,19 @@ int main (int argc, char **argv)
     
     memory = createMemory(9, 3);
 
+    /*
+     *allocateBlock(memory, 0);
+     *allocateBlock(memory, 6);
+     *allocateBlock(memory, 9);
+     *allocateBlock(memory, 12);
+     */
+
+
     while (loop==1)
     {
         switch (menu())
         {
             case 1:
-                //TODO: handle other algorithms
                 input = -1;
                 do
                 {
@@ -37,7 +44,7 @@ int main (int argc, char **argv)
                     printf("\n");
                     scanf("%d", &input);
                 }while (input<1 || input>3);
-                printf("COUCOU\n");
+               
                 printf ("Combien de memoire souhaitez vous allouer?\n");
                 scanf ("%d", &input1);
                 if (input == 1)
