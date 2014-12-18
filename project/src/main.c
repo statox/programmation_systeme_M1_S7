@@ -21,14 +21,6 @@ int main (int argc, char **argv)
     
     memory = createMemory(9, 3);
 
-    /*
-     *allocateBlock(memory, 0);
-     *allocateBlock(memory, 6);
-     *allocateBlock(memory, 9);
-     *allocateBlock(memory, 12);
-     */
-
-
     while (loop==1)
     {
         switch (menu())
@@ -57,7 +49,7 @@ int main (int argc, char **argv)
                 }
                 else
                 {
-                    printf("To implements: Worst fit\n");
+                    WFallocate(memory, input1);
                 }
                 break;
 
