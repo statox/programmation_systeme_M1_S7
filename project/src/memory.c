@@ -44,8 +44,6 @@ Memory createMemory (int nbBlocks, int blockSize)
     mem = addEnd(mem, 5,    9,  0);
     mem = addEnd(mem, 6,    12, 0);
     mem = addEnd(mem, 7,    15, 0);
-    
-
 
     return mem;
 }
