@@ -7,11 +7,15 @@ void printMem (Memory memory)
 {
 
     Block* tmp=memory;
+    int totalSpace  = 0;
+    int usedSpace   = 0;
 
     printf ("@ \t - Used\t/Length\t-  n.@\tA\n");
     printf ("---------------------------------\n");
     while (tmp != NULL)
     {
+        totalSpace  += tmp->length;
+        usedSpace   += tmp->usedLength;
         if (tmp->next != NULL)
         {
             printf("%d \t - %d\t/ %d\t-  %d \t%d \n", tmp->address, tmp->usedLength, tmp->length, tmp->next->address, tmp->allocated);
@@ -23,7 +27,9 @@ void printMem (Memory memory)
         tmp = tmp->next;
     }
 
-    printf("fin de la memoire\n");
+    printf ("---------------------------------\n");
+    printf ("Taille totale: %d\n", totalSpace);
+    printf ("Espace utilise: %d\n", usedSpace);
     return;
 }
 
