@@ -10,55 +10,64 @@
 #include <stdio.h>
 #include "headers/structures.h"
 
+int menu ();
 
 int main (int argc, char **argv)
 {
     Memory memory = NULL;
-
+    int input=0;
+    int loop = 1;
+    
     memory = createMemory(9, 3);
-    printMem(memory);
 
-    printf("allocate Block 6\n");
-    allocateBlock(memory, 6);
-    printMem(memory);
+    while (loop==1)
+    {
+        switch (menu())
+        {
+            case 1:
+                //TODO: handle other algorithms
+                printf ("Combien de memoire souhaitez vous allouer?\n");
+                scanf ("%d", &input);
+                FFallocate(memory, input);
+                break;
 
-    printf("allocate Block 15\n");
-    allocateBlock(memory, 15);
-    printMem(memory);
+            case 2:
+                printf ("Quel bloc souhaitez vou liberer?\n");
+                scanf ("%d", &input);
+                freeBlock(memory, input);
+                break;
 
-    printf("allocate Block 15\n");
-    allocateBlock(memory, 15);
-    printMem(memory);
+            case 3:
+                printMem(memory);
+                break;
 
-    printf("allocate Block 2\n");
-    allocateBlock(memory, 2);
-    printMem(memory);
+            default:
+                loop = 0;
 
-    printf("allocate Block 55\n");
-    allocateBlock(memory, 55);
-    printMem(memory);
-
-
-    printf("free Block 6\n");
-    freeBlock(memory, 6);
-    printMem(memory);
-
-    printf("free Block 15\n");
-    freeBlock(memory, 15);
-    printMem(memory);
-
-    printf("free Block 15\n");
-    freeBlock(memory, 15);
-    printMem(memory);
-
-    printf("free Block 2\n");
-    freeBlock(memory, 2);
-    printMem(memory);
-
-    printf("free Block 55\n");
-    freeBlock(memory, 55);
-    printMem(memory);
-
+        }
+    }
 
     return 0;
+}
+
+
+int menu ()
+{
+    int choix = 0;
+    int i = 0;
+    
+    for (i=0; i<4; ++i)
+        printf("\n");
+    
+    do 
+    {
+        printf ("Que souhaitez vous faire?\n");
+        printf ("\t1. Allouer de la memoire\n");
+        printf ("\t2. Liberer de la memoire\n");
+        printf ("\t3. Visualiser la memoire\n");
+        printf ("\t0. Quitter le programme\n\n");
+
+        printf ("Saisissez votre choix: ");
+        scanf("%d", &choix);
+    }while (choix<0 || choix>3);   
 }
