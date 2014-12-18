@@ -19,7 +19,7 @@ int main (int argc, char **argv)
     int input1=0;
     int loop = 1;
     
-    memory = createMemory(9, 3);
+    memory = (Memory) createMemory(9, 3);
 
     while (loop==1)
     {
