@@ -41,7 +41,7 @@ int main (int argc, char **argv)
                     printf("\t1. First Fit\n");
                     printf("\t2. Best  Fit\n");
                     printf("\t3. Worst Fit\n");
-                    printf("\n");
+                    printf("\nSaisissez votre choix: ");
                     scanf("%d", &input);
                 }while (input<1 || input>3);
                
@@ -53,7 +53,7 @@ int main (int argc, char **argv)
                 }
                 else if (input == 2)
                 {
-                    BFallocate(memory, input);
+                    BFallocate(memory, input1);
                 }
                 else
                 {
