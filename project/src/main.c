@@ -55,6 +55,7 @@ int main (int argc, char **argv)
                 {
                     WFallocate(memory, input1);
                 }
+                isDefragUseful(memory, 10);
                 break;
 
             case 2:
