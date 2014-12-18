@@ -7,7 +7,6 @@
 
 #include "structures.h"
 #include "memory.h"
-#include <limits.h>
 
 int BFallocate (Memory memory, int requestedSize);
 
