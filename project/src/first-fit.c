@@ -42,11 +42,16 @@ int FFallocate (Memory memory, int requestedSize)
         }
     }
 
+    // if we didnt found any fitting block
+    if (tmp == NULL)
+    {
+        printf("Il n'existe pas de bloc capable de contenir cette requete\n");
+        return -1;
+    }
     printf("On alloue le bloc %d\n", tmp->address); 
 
 
     // Allocation of the block
-    // TODO: handle an impossible Allocation
     allocateBlock(memory, tmp->address);
 
 
