@@ -7,16 +7,17 @@ void printMem (Memory memory)
 {
 
     Block* tmp=memory;
-    
+   
+    printf ("@ \t - L\t-  n.@\tA\n");
     while (tmp != NULL)
     {
         if (tmp->next != NULL)
         {
-            printf("%d \t - %d - \t %d \t%d \n", tmp->address, tmp->length, tmp->next->address, tmp->allocated);
+            printf("%d \t - %d\t-  %d \t%d \n", tmp->address, tmp->length, tmp->next->address, tmp->allocated);
         }
         else
         {
-            printf("%d \t - %d - \t NULL\t%d \n", tmp->address, tmp->length, tmp->allocated);
+            printf("%d \t - %d\t-  NULL\t%d \n", tmp->address, tmp->length, tmp->allocated);
         }
         tmp = tmp->next;
     }
@@ -30,8 +31,21 @@ Memory createMemory (int nbBlocks, int blockSize)
 {
     int i = 0;
     Memory mem = NULL;
-    for (i=0; i<nbBlocks; ++i)
-        mem = addEnd(mem, i*blockSize, blockSize, false);
+    /*
+     *for (i=0; i<nbBlocks; ++i)
+     *    mem = addEnd(mem, i*blockSize, blockSize, false);
+     */
+
+    mem = addEnd(mem, 0,    10, 0);
+    mem = addEnd(mem, 1,    4,  0);
+    mem = addEnd(mem, 2,    20, 0);
+    mem = addEnd(mem, 3,    18, 0);
+    mem = addEnd(mem, 4,    7,  0);
+    mem = addEnd(mem, 5,    9,  0);
+    mem = addEnd(mem, 6,    12, 0);
+    mem = addEnd(mem, 7,    15, 0);
+    
+
 
     return mem;
 }
