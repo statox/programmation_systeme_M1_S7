@@ -7,11 +7,7 @@ int FFallocate (Memory memory, int requestedSize)
 {
 
     Block*  tmp         = memory;   // pointer to iterate through the memory
-    Block*  firstBlock  = memory;   // pointer on the first block of the currently free zone
-    int     nbBlock     = 0;        // number of blocks in the currently free zone
     bool    stop        = false;    // condition of the while loop
-    int     available   = 0;        // available size represented by the currently free zone
-    int     blocksAdd[100];         // array of the addresses of the blocks in the zone
 
     printf("First Fit Strategy\n");
     // iterate through the memory

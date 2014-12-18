@@ -29,7 +29,7 @@ void printMem (Memory memory)
 // Utility function: create a consistent memory.
 Memory createMemory (int nbBlocks, int blockSize)
 {
-    int i = 0;
+    /*int i = 0;*/
     Memory mem = NULL;
     /*
      *for (i=0; i<nbBlocks; ++i)
