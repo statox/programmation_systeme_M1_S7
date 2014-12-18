@@ -7,7 +7,7 @@ OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=executable
 
 all: $(SOURCES) $(EXECUTABLE)
-	./executable
+	./executable 1 12 1 10 1 9
 
 $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(LDFLAGS) $(OBJECTS) -o $@

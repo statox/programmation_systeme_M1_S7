@@ -22,8 +22,39 @@ int main (int argc, char **argv)
     int input=0;
     int input1=0;
     int loop = 1;
-    
+    int cursorArgs = 1;
+
     memory = (Memory) createMemory(9, 3);
+
+    if (argc > 1) {
+        while (argc >= cursorArgs + 2) {
+            if (atoi(argv[cursorArgs]) == 1)
+            {
+                FFallocate(memory, atoi(argv[cursorArgs + 1]));
+                cursorArgs += 2;
+            }
+            else if (atoi(argv[cursorArgs]) == 2)
+            {
+                BFallocate(memory, atoi(argv[cursorArgs + 1]));
+                cursorArgs += 2;
+            }
+            else if (atoi(argv[cursorArgs]) == 3)
+            {
+                WFallocate(memory, atoi(argv[cursorArgs + 1]));
+                cursorArgs += 2;
+            }
+            // else if (argv[cursorArgs] == 3)
+            // {
+            //     printMem(memory);
+            //     cursorArgs++;
+            // }
+            else
+            {
+                printf("Invalid input\n");
+            }
+        }
+        printMem(memory);
+    }
 
     while (loop==1)
     {
@@ -40,7 +71,7 @@ int main (int argc, char **argv)
                     printf("\nSaisissez votre choix: ");
                     scanf("%d", &input);
                 }while (input<1 || input>3);
-               
+
                 printf ("Combien de memoire souhaitez vous allouer?\n");
                 scanf ("%d", &input1);
                 if (input == 1)
@@ -66,7 +97,7 @@ int main (int argc, char **argv)
             case 3:
                 printMem(memory);
                 break;
-            
+
             case 4:
                 printf ("Liberation de %d blocs\n", freeMemory(memory) );
                 break;
@@ -91,11 +122,11 @@ int menu ()
 {
     int choix = 0;
     int i = 0;
-    
+
     for (i=0; i<4; ++i)
         printf("\n");
-    
-    do 
+
+    do
     {
         printf ("Que souhaitez vous faire?\n");
         printf ("\t1. Allouer de la memoire\n");
