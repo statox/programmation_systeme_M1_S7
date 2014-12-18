@@ -38,7 +38,7 @@ int WFallocate (Memory memory, int requestedSize)
     }
 
     // if we didnt found any fitting block
-    if (tmp == NULL)
+    if (worst == NULL)
     {
         printf("Il n'existe pas de bloc capable de contenir cette requete\n");
         return -1;
