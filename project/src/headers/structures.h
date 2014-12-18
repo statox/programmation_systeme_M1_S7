@@ -18,6 +18,7 @@ struct Block
 {
     int address;
     int length;
+    int usedLength;
     bool allocated;
     struct Block *next;
 };
@@ -31,4 +32,4 @@ typedef Block* Memory;
 
 
 
-#endif /* STRUCTURES_H */ 
+#endif /* STRUCTURES_H */
