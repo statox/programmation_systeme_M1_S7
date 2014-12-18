@@ -1,4 +1,4 @@
-#include "headers/best-fit.c"
+#include "headers/best-fit.h"
 
 /*
  *  This function allocate the smallest (the best) memory zone fiting the requested size
