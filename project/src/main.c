@@ -16,6 +16,7 @@ int main (int argc, char **argv)
 {
     Memory memory = NULL;
     int input=0;
+    int input1=0;
     int loop = 1;
     
     memory = createMemory(9, 3);
@@ -26,13 +27,35 @@ int main (int argc, char **argv)
         {
             case 1:
                 //TODO: handle other algorithms
+                input = -1;
+                do
+                {
+                    printf("Quel algorithme souhaitez vous utiliser?\n");
+                    printf("\t1. First Fit\n");
+                    printf("\t2. Best  Fit\n");
+                    printf("\t3. Worst Fit\n");
+                    printf("\n");
+                    scanf("%d", &input);
+                }while (input<1 || input>3);
+                printf("COUCOU\n");
                 printf ("Combien de memoire souhaitez vous allouer?\n");
-                scanf ("%d", &input);
-                FFallocate(memory, input);
+                scanf ("%d", &input1);
+                if (input == 1)
+                {
+                    FFallocate(memory, input1);
+                }
+                else if (input == 2)
+                {
+                    BFallocate(memory, input);
+                }
+                else
+                {
+                    printf("To implements: Worst fit\n");
+                }
                 break;
 
             case 2:
-                printf ("Quel bloc souhaitez vou liberer?\n");
+                printf ("Quel bloc souhaitez vous liberer?\n");
                 scanf ("%d", &input);
                 freeBlock(memory, input);
                 break;
