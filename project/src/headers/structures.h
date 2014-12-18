@@ -1,6 +1,10 @@
  /*
   * definition of the structures used by our application
   */
+#ifndef STRUCTURES_H
+#define STRUCTURES_H
+
+
 #include <stdbool.h>    // C99 definition for booleans
 
 /*
@@ -27,4 +31,4 @@ typedef Block* Memory;
 
 
 
-
+#endif /* STRUCTURES_H */ 

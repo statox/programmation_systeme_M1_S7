@@ -3,6 +3,9 @@
  *
  */
 
+#ifndef MEMORY_H
+#define MEMORY_H
+
 #include "structures.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -26,3 +29,5 @@ int allocateBlock (Memory memory, int address);
 // iterate through the memory and marks the desired block as "free"
 int freeBlock (Memory memory, int address);
 
+
+#endif /* MEMORY_H */ 
