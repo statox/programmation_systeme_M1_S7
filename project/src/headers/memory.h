@@ -13,6 +13,7 @@
 
 // Output the content of the Memory
 void printMem (Memory memory);
+void printMem2 (Memory memory);
 
 // Add a new Block at the head of the Memory
 Memory addHead (Memory memory, int address, int length, bool status);
@@ -38,4 +39,8 @@ int freeMemory (Memory memory);
 // delete unused space in allocated block
 // then use this space to create 2 blocks of requestedSize size and remaining size
 Memory defrag (Memory memory, int requestedSize);
+Memory defrag2 (Memory memory, int requestedSize);
+
+bool isDefragUseful (Memory memory, int requestedSize);
+bool isDefrag2Useful (Memory memory, int requestedSize);
 #endif /* MEMORY_H */

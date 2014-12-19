@@ -64,6 +64,9 @@ int main (int argc, char **argv)
         Block* tmp = memory;
         if (assertion) {
             while (argc > cursorArgs && !assertionError) {
+                if (tmp == NULL) {
+                    assertionError = true;
+                }
                 if (atoi(argv[cursorArgs]) != tmp->usedLength) {
                     assertionError = true;
                 } else {
@@ -75,13 +78,22 @@ int main (int argc, char **argv)
         }
         printMem2(memory);
         if (assertionError) {
-            printf("Assertion error : %d != %d : at %d.\n", atoi(argv[cursorArgs]), tmp->usedLength, assertionIndex);
-        } else {
-            printf("no error\n");
+            if (tmp == NULL) {
+                printf("not enough blocks\n");
+            } else {
+                printf("Assertion error : %d != %d : at %d.\n", atoi(argv[cursorArgs]), tmp->usedLength, assertionIndex);
+                perror("\nAssertion error\n");
+            }
+            printMem(memory);
         }
+        // else {
+        //     printf("no error\n");
+        //     perror("\nno error\n");
+        // }
+        printf("\n\n");
     }
 
-    while (loop==1)
+    while (loop==1 && ((assertion && assertionError) || !assertion))
     {
         switch (menu())
         {

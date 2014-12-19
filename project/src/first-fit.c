@@ -40,13 +40,25 @@ int FFallocate (Memory memory, int requestedSize)
 
     // Allocation of the block
     // if we didnt found any fitting block
-    if (tmp == NULL)
+    if (tmp != NULL)
     {
-        printf("Il n'existe pas de bloc capable de contenir cette requete\n");
+        printf("On alloue le bloc %d\n", tmp->address);
+        allocateBlock(memory, tmp->address, requestedSize);
+    } else {
+        printf("Il n'existe pas de bloc capable de contenir cette requete.\nEssayons de trouver de la place...\n");
+        if (isDefragUseful(memory, requestedSize)) {
+            memory = defrag(memory, requestedSize);
+        } else {
+            printf("Defragmenter n'est pas suffisant....\nEssayons de trouver de la place...\n");
+            if (isDefrag2Useful(memory, requestedSize)) {
+                memory = defrag2(memory, requestedSize);
+            } else {
+                printf("Defragmenter2 n'est pas suffisant....\n");
+            }
+        }
         return -1;
+
     }
-    printf("On alloue le bloc %d\n", tmp->address);
-    allocateBlock(memory, tmp->address, requestedSize);
 
 
     return 0;
