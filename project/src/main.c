@@ -24,11 +24,19 @@ int main (int argc, char **argv)
     int loop = 1;
     int cursorArgs = 1;
 
+    bool assertion = false;
+    int assertionIndex = 0;
+    bool assertionError = false;
+
     memory = (Memory) createMemory(9, 3);
 
     if (argc > 1) {
-        while (argc >= cursorArgs + 2) {
-            if (atoi(argv[cursorArgs]) == 1)
+        while (argc >= cursorArgs + 2 && !assertion) {
+            if (strcasecmp("assert", argv[cursorArgs]) == 0) {
+                assertion = true;
+                cursorArgs++;
+            }
+            else if (atoi(argv[cursorArgs]) == 1)
             {
                 FFallocate(memory, atoi(argv[cursorArgs + 1]));
                 cursorArgs += 2;
@@ -53,7 +61,24 @@ int main (int argc, char **argv)
                 printf("Invalid input\n");
             }
         }
-        printMem(memory);
+        Block* tmp = memory;
+        if (assertion) {
+            while (argc > cursorArgs && !assertionError) {
+                if (atoi(argv[cursorArgs]) != tmp->usedLength) {
+                    assertionError = true;
+                } else {
+                    assertionIndex++;
+                    cursorArgs++;
+                    tmp = tmp->next;
+                }
+            }
+        }
+        printMem2(memory);
+        if (assertionError) {
+            printf("Assertion error : %d != %d : at %d.\n", atoi(argv[cursorArgs]), tmp->usedLength, assertionIndex);
+        } else {
+            printf("no error\n");
+        }
     }
 
     while (loop==1)
@@ -146,7 +171,7 @@ int menu ()
 
         printf ("Saisissez votre choix: ");
         scanf("%d", &choix);
-    }while (choix<0 || choix>6);  
+    }while (choix<0 || choix>6);
 
     return choix;
 }

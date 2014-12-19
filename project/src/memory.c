@@ -1,5 +1,78 @@
 #include "headers/memory.h"
 
+#include <string.h>
+
+int intLength(int value) {
+    int i = 1;
+    int length = 0;
+
+    if (value == 0) {
+        return 1;
+    } else {
+        while (i < value + 1) {
+            i *= 10;
+            ++length;
+        }
+        return length;
+    }
+    // Test :
+    // for (int i = 0; i < 13; ++i)
+    // {
+    //     printf("%d\t%d\n", i, intLength(i));
+    // }
+    // printf("%d %d %d", intLength(0), intLength(100), intLength(1001));
+}
+
+// Output the content of the Memory
+void printMem2 (Memory memory)
+{
+    Block* tmp = memory;
+    int totalSpace  = 0;
+    int usedSpace   = 0;
+    int quantity    = 0;
+
+    int addedChar   = 0;
+    int bufferMaxSize = (usedSpace + (3-1)*quantity);
+    char* buffer = malloc(bufferMaxSize * sizeof(char));
+
+
+
+    while (tmp != NULL) {
+        for (int i = tmp->usedLength - 1; i >= 0; --i)
+        {
+            printf("#");
+        }
+        for (int i = tmp->length - tmp->usedLength - 1; i >= 0; --i)
+        {
+            printf("_");
+        }
+
+        printf("   ");
+        quantity++;
+        tmp = tmp->next;
+    }
+
+
+    // bufferMaxSize = (usedSpace + (3-1)*quantity);
+    // buffer = malloc(bufferMaxSize * sizeof(char));
+
+    // buffer[bufferMaxSize - 1] = '\0';
+    // tmp = memory;
+    // int currentIndex = 0;
+    // while (tmp != NULL) {
+    //     // tempStringDescription(buffer, bufferMaxSize, &currentIndex, tmp);
+    //     addedChar = snprintf(buffer + currentIndex*sizeof(char), bufferMaxSize - currentIndex*sizeof(char), "%d / %d", tmp->usedLength, tmp->length);
+    //     for (int i = 0; i < addedChar; ++i) {
+    //         printf(" ");
+    //     }
+    //     printf("   ");
+    //     currentIndex += addedChar + 3;
+    //     tmp = tmp->next;
+    // }
+    // printf("\n%s\n", buffer);
+    // free(buffer);
+    return;
+}
 
 // Output the content of the Memory
 // TODO: Make this function beautiful
@@ -211,7 +284,7 @@ int freeBlockLength (Memory memory, int address, int lengthFree)
             tmp->usedLength = tmp->usedLength-lengthFree;
             if (tmp->usedLength==0)
                 tmp->allocated = false;
-        
+
             return 0;
         }else
         {
@@ -250,10 +323,10 @@ bool isDefragUseful (Memory memory, int requestedSize)
     }
 
     printf ("The waisted memory in the allocated block is: %d\n", avaible);
-    
+
     if (avaible >= requestedSize)
         return true;
-            
+
     return false;
 }
 
@@ -262,18 +335,18 @@ bool isDefragUseful (Memory memory, int requestedSize)
 //      one is of the size of requestedSize
 //      The other one is of (total waisted space) - requestedSize
 //
-//  Before any operation, the function uses isDefragUseful to check if there is enough 
+//  Before any operation, the function uses isDefragUseful to check if there is enough
 //  free space to create a block of the requestedSize
 
 Memory defrag (Memory memory, int requestedSize)
 {
     Block* tmp      = memory;
-    Block* prev     = NULL; 
+    Block* prev     = NULL;
     int freeSpace   = 0;
 
     if (!isDefragUseful(memory, requestedSize))
         printf ("La defragmentation ne permettra pas de recuperer un espace de %d\n", requestedSize);
-    
+
     while (tmp != NULL)
     {
         if (tmp->allocated && tmp->length != tmp->usedLength)
