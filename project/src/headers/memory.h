@@ -43,4 +43,7 @@ Memory defrag2 (Memory memory, int requestedSize);
 
 bool isDefragUseful (Memory memory, int requestedSize);
 bool isDefrag2Useful (Memory memory, int requestedSize);
+int useSomeDefragmentationAlgorithm (Memory *memory, int requestedSize);
+
+void freeAndDeleteMemoryForGood(Memory memory);// to prevent from memory leaks
 #endif /* MEMORY_H */

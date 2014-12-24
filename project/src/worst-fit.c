@@ -37,19 +37,15 @@ int WFallocate (Memory memory, int requestedSize)
         tmp = tmp->next;
     }
 
-    // if we didnt found any fitting block
-    if (worst == NULL)
-    {
-        printf("Il n'existe pas de bloc capable de contenir cette requete\n");
-        return -1;
-    }
-
-    printf("On alloue le bloc a l'adresse %d", worst->address);
-
-
     // Allocation of the block
-    // TODO: handle an impossible Allocation
-    allocateBlock(memory, worst->address, requestedSize);
+    // if we didnt found any fitting block
+    if (worst != NULL)
+    {
+        printf("On alloue le bloc %d\n", worst->address);
+        allocateBlock(memory, worst->address, requestedSize);
+    } else {
+        return useSomeDefragmentationAlgorithm(&memory, requestedSize);
+    }
 
     return 0;
 }

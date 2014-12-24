@@ -66,13 +66,14 @@ int main (int argc, char **argv)
             while (argc > cursorArgs && !assertionError) {
                 if (tmp == NULL) {
                     assertionError = true;
-                }
-                if (atoi(argv[cursorArgs]) != tmp->usedLength) {
-                    assertionError = true;
                 } else {
-                    assertionIndex++;
-                    cursorArgs++;
-                    tmp = tmp->next;
+                    if (atoi(argv[cursorArgs]) != tmp->usedLength) {
+                        assertionError = true;
+                    } else {
+                        assertionIndex++;
+                        cursorArgs++;
+                        tmp = tmp->next;
+                    }
                 }
             }
         }
@@ -158,6 +159,7 @@ int main (int argc, char **argv)
         }
     }
 
+    freeAndDeleteMemoryForGood(memory);
     return 0;
 }
 

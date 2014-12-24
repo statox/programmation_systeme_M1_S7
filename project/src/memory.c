@@ -27,13 +27,13 @@ int intLength(int value) {
 void printMem2 (Memory memory)
 {
     Block* tmp = memory;
-    int totalSpace  = 0;
-    int usedSpace   = 0;
+//    int totalSpace  = 0;
+//    int usedSpace   = 0;
     int quantity    = 0;
 
-    int addedChar   = 0;
-    int bufferMaxSize = (usedSpace + (3-1)*quantity);
-    char* buffer = malloc(bufferMaxSize * sizeof(char));
+//    int addedChar   = 0;
+//    int bufferMaxSize = (usedSpace + (3-1)*quantity);
+//    char* buffer = malloc(bufferMaxSize * sizeof(char));
 
 
 
@@ -381,18 +381,24 @@ Memory defrag (Memory memory, int requestedSize)
 
     printf ("total espace perdu dans les blocs alloues %d\n", freeSpace);
     printf ("taille du nouveau bloc 1 %d\n", requestedSize);
-    printf ("taille du nouveau bloc 2 %d\n", (freeSpace-requestedSize));
+    if (freeSpace > requestedSize) {
+        printf ("taille du nouveau bloc 2 : %d\n", (freeSpace-requestedSize));
+    }
 
     printf ("Creation d'un nouveau bloc de %d\n", requestedSize);
     memory = addEnd(memory, prev->address+1, requestedSize, 0);
 
-    printf ("Creation d'un nouveau bloc de %d\n", (freeSpace-requestedSize));
-    memory = addEnd(memory, prev->address+2, (freeSpace-requestedSize), 0);
+    if (freeSpace > requestedSize) {
+        printf ("Creation d'un nouveau bloc de %d\n", (freeSpace-requestedSize));
+        memory = addEnd(memory, prev->address+2, (freeSpace-requestedSize), 0);
+    }
+
+    printf("Fin de la defragmentation.\n");
 
     return memory;
 }
 
-Memory defrag2SuperDestructive (Memory memory, int requestedSize)
+Memory defrag2SuperDestructiveAndWithSeveralErrors (Memory memory, int requestedSize)
 // Memory defrag2 (Memory memory, int requestedSize)
 {
     Block* tmp      = memory;
@@ -448,7 +454,9 @@ Memory defrag2SuperDestructive (Memory memory, int requestedSize)
 
     printf ("total espace libere : %d\n", freeSpace);
     printf ("taille du nouveau bloc 1 %d\n", requestedSize);
-    printf ("taille du nouveau bloc 2 %d\n", (freeSpace-requestedSize));
+    if (freeSpace > requestedSize) {
+        printf ("taille du nouveau bloc 2 : %d\n", (freeSpace-requestedSize));
+    }
 
     if (!lastOneShouldGetBigger) {
         printf ("Creation d'un nouveau bloc de %d\n", requestedSize);
@@ -460,8 +468,11 @@ Memory defrag2SuperDestructive (Memory memory, int requestedSize)
         prev->allocated = true;
     }
 
-    printf ("Creation d'un nouveau bloc de %d\n", (freeSpace-requestedSize));
-    memory = addEnd(memory, prev->address+2, (freeSpace-requestedSize), 0);
+    if (freeSpace > requestedSize) {
+        printf ("Creation d'un nouveau bloc de %d\n", (freeSpace-requestedSize));
+        memory = addEnd(memory, prev->address+2, (freeSpace-requestedSize), 0);
+    }
+    printf("Fin de la defragmentation.\n");
 
     return memory;
 }
@@ -471,7 +482,7 @@ Memory defrag2 (Memory memory, int requestedSize)
 {
     Block* tmp      = memory;
     Block* prev     = NULL;
-    Block* prev2     = NULL;
+    Block* prev2    = NULL;
     bool lastOneShouldGetBigger = false;
     bool deletion = false;
     int freeSpace   = 0;
@@ -491,7 +502,8 @@ Memory defrag2 (Memory memory, int requestedSize)
         else if (freeSpace < requestedSize && !tmp->allocated)
         {
             freeSpace += tmp->length;
-            if (prev != NULL) {
+            // if (prev != NULL) {
+            if (tmp != memory) {
                 if (tmp->next != NULL) {
                     prev->next = tmp->next;
                     free(tmp);
@@ -502,14 +514,23 @@ Memory defrag2 (Memory memory, int requestedSize)
                 }
             } else {
                 if (tmp->next != NULL) {
-                    memory = tmp->next;
+                    // memory = tmp->next;
+                    // free(tmp);
+                    // tmp = memory;
+                    // deletion = true;
+                    tmp = memory->next;
+                    memory->address = tmp->address;
+                    memory->allocated = tmp->allocated;
+                    memory->length = tmp->length;
+                    memory->next = tmp->next;
+                    memory->usedLength = tmp->usedLength;
                     free(tmp);
                     tmp = memory;
                     deletion = true;
                 } else {
                     lastOneShouldGetBigger = true;
-                    printf("What !!!!?");
-                    perror("What !!!!?");
+                    printf("What !!!! Degraf can't do any good if there is only one block, so we shouldn't be here...");
+                    printf("What !!!! Degraf can't do any good if there is only one block, so we shouldn't be here...");
                 }
             }
         }
@@ -521,8 +542,10 @@ Memory defrag2 (Memory memory, int requestedSize)
     }
 
     printf ("total espace libere : %d\n", freeSpace);
-    printf ("taille du nouveau bloc 1 %d\n", requestedSize);
-    printf ("taille du nouveau bloc 2 %d\n", (freeSpace-requestedSize));
+    printf ("taille du nouveau bloc 1 : %d\n", requestedSize);
+    if (freeSpace > requestedSize) {
+        printf ("taille du nouveau bloc 2 : %d\n", (freeSpace-requestedSize));
+    }
 
     if (!lastOneShouldGetBigger) {
         printf ("Creation d'un nouveau bloc de %d\n", requestedSize);
@@ -535,8 +558,43 @@ Memory defrag2 (Memory memory, int requestedSize)
         prev->allocated = true;
     }
 
-    printf ("Creation d'un nouveau bloc de %d\n", (freeSpace-requestedSize));
-    memory = addEnd(memory, prev->address+2, (freeSpace-requestedSize), 0);
+    if (freeSpace > requestedSize) {
+        printf ("Creation d'un nouveau bloc de %d\n", (freeSpace-requestedSize));
+        memory = addEnd(memory, prev->address+2, (freeSpace-requestedSize), 0);
+    }
+
+    printf("Fin de la defragmentation.\n");
 
     return memory;
+}
+
+int useSomeDefragmentationAlgorithm (Memory *memory, int requestedSize) {
+    printf("Il n'existe pas de bloc capable de contenir cette requete.\nEssayons de trouver de la place...\n");
+    if (isDefragUseful(*memory, requestedSize)) {
+        printf("Un algorithme efficace a ete identifie.\nEn cours...\n");
+        *memory = defrag(*memory, requestedSize);
+        return 0;
+    } else {
+        printf("Defragmenter n'est pas suffisant....\nEssayons de trouver de la place avec un autre algorithme...\n");
+        if (isDefrag2Useful(*memory, requestedSize)) {
+            printf("Un algorithme efficace a ete identifie.\nEn cours...\n");
+            *memory = defrag2(*memory, requestedSize);
+            return 0;
+        } else {
+            printf("Defragmenter n'est pas suffisant....\n");
+        }
+    }
+    return -1;
+}
+
+void freeAndDeleteMemoryForGood(Memory memory) {
+    Block* tmp = NULL;
+
+    if (memory != NULL) {
+        do {
+            tmp = memory->next;
+            free(memory);
+            memory = tmp;
+        } while (memory != NULL);
+    }
 }
